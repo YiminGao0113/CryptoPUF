@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: CryptoPUF
+Version: 0.1
+Summary: A Python wrapper for TinyJAMBU encryption and decryption
+Home-page: https://github.com/YiminGao0113/CryptoPUF.git
+Author: Yimin Gao
+Author-email: yg9bq@virginia.edu
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# TinyJAMBU
+
+A Python wrapper for the TinyJAMBU encryption and decryption algorithm using ctypes to interface with the TinyJAMBU C library.
+
+## Installation
+
+```bash
+pip install CryptoPUF
+
+
