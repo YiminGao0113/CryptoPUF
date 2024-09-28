@@ -35,15 +35,17 @@ def encrypt(plaintext, key_hex, nonce_hex):
     ciphertext = (ctypes.c_ubyte * 64)()
     ciphertext_len = ctypes.c_ulonglong()
 
+    # Prepare plaintext as bytes
+    plaintext_bytes = (ctypes.c_ubyte * len(plaintext))(*plaintext)
+
     lib.crypto_aead_encrypt(ciphertext, ctypes.byref(ciphertext_len),
-                            ctypes.cast(plaintext, ctypes.POINTER(ctypes.c_ubyte)),
-                            len(plaintext), None, 0, None, nonce, key)
+                            plaintext_bytes, len(plaintext), None, 0, None, nonce, key)
 
-    ciphertext_hex = ''.join(f'{byte:02x}' for byte in ciphertext[:ciphertext_len.value])
-    return ciphertext_hex
+    # Return ciphertext as a raw byte string instead of hex
+    return bytes(ciphertext[:ciphertext_len.value])
 
-def decrypt(ciphertext_hex, key_hex, nonce_hex):
-    ciphertext = hex_to_byte_array(ciphertext_hex)
+def decrypt(ciphertext_bytes, key_hex, nonce_hex):
+    ciphertext = (ctypes.c_ubyte * len(ciphertext_bytes))(*ciphertext_bytes)
     key = hex_to_byte_array(key_hex)
     nonce = hex_to_byte_array(nonce_hex)
 
@@ -51,10 +53,9 @@ def decrypt(ciphertext_hex, key_hex, nonce_hex):
     plaintext_len = ctypes.c_ulonglong()
 
     ret = lib.crypto_aead_decrypt(plaintext, ctypes.byref(plaintext_len), None,
-                                  ciphertext, len(ciphertext), None, 0, nonce, key)
+                                  ciphertext, len(ciphertext_bytes), None, 0, nonce, key)
     
     if ret == 0:
-        plaintext_bytes = bytes(plaintext[:plaintext_len.value]).decode('utf-8')
-        return plaintext_bytes
+        return bytes(plaintext[:plaintext_len.value])
     else:
         return "Decryption failed"
