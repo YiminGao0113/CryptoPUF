@@ -55,7 +55,7 @@ class CryptoPUF(Simulation):
             encrypted_response = np.unpackbits(np.frombuffer(encrypted_output, dtype=np.uint8))
 
             # Extract the 65th bit (index 64) from the encrypted response
-            bit_65 = encrypted_response[33]
+            bit_65 = encrypted_response[127]
 
             # Map 0 to -1 and keep 1 as 1
             response = -1 if bit_65 == 0 else 1
