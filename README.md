@@ -26,7 +26,7 @@ CryptoPUF is a lightweight, machine-learning-resilient Physically Unclonable Fun
    
 4. **Extensible Cryptographic Core**
 
-The CryptoPUF implementation is designed to allow easy integration of different cryptographic cores. The `crypto_functions` dictionary in [crypto/cryptopuf.py](https://github.com/YiminGao0113/CryptoPUF_repo/blob/main/crypto/cryptopuf.py) maps each crypto core name to its corresponding encryption function, enabling you to add and configure new cryptographic algorithms simply by updating this dictionary. By default, it supports TinyJAMBU, but other cryptographic functions can be added as needed.
+The CryptoPUF implementation is designed to allow easy integration of different cryptographic cores. The `crypto_functions` dictionary in [crypto/cryptopuf.py]([https://github.com/YiminGao0113/CryptoPUF_repo/blob/main/crypto/cryptopuf.py](https://github.com/YiminGao0113/CryptoPUF/blob/main/crypto/cryptopuf.py)) maps each crypto core name to its corresponding encryption function, enabling you to add and configure new cryptographic algorithms simply by updating this dictionary. By default, it supports TinyJAMBU, but other cryptographic functions can be added as needed.
 
 
 5. **Paper Results**
