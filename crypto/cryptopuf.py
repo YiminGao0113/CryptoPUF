@@ -1,19 +1,21 @@
 import numpy as np
-# from tinyjambu import encrypt, SimpleTinyJAMBU
-from .tinyjambu.tinyjambu import encrypt, SimpleTinyJAMBU
-# from tinyjambu.SimpleTinyJAMBU import SimpleTinyJAMBU
-import sys
 import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from .tinyjambu.tinyjambu import encrypt as tinyjambu_encrypt, SimpleTinyJAMBU
 from pypuf.pypuf.simulation import Simulation  # Base class for PUF simulation
 
+# Define a dictionary that maps crypto strings to the corresponding encryption functions
+crypto_functions = {
+    "tinyjambu": lambda cipher, data: cipher.encrypt(data)
+    # Add other crypto mappings here as needed, e.g., "another_crypto": another_crypto_encrypt_function
+}
+
 class CryptoPUF_TinyJAMBU(Simulation):
-    def __init__(self, challenge_length: int, key: str, nonce: str, seed: int = None):
+    def __init__(self, challenge_length: int, key: str, nonce: str, crypto: str = 'tinyjambu', seed: int = None):
+        print(f"Initializing CryptoPUF based on {crypto} crypto core...")
         self._challenge_length = challenge_length
         self._response_length = 1  # Set response length to 1, as we want only 1-bit responses
         self.tinyjambu_cipher = SimpleTinyJAMBU(key=key, nonce=nonce)
-
+        self.crypto = crypto
         if seed:
             np.random.seed(seed)
 
@@ -28,13 +30,24 @@ class CryptoPUF_TinyJAMBU(Simulation):
     def eval(self, challenges: np.ndarray) -> np.ndarray:
         """Evaluate the PUF on a list of given challenges."""
         responses = []
+        crypto_path = os.path.join(os.path.dirname(__file__), self.crypto)
+        
+        # Ensure the selected crypto core is supported
+        if self.crypto not in crypto_functions:
+            raise ValueError(f"Unsupported crypto core: {self.crypto}")
+
         for challenge in challenges:
             # Convert the challenge from {-1, 1} to {0, 1}
             challenge_binary = 0.5 * (challenge + 1)  # -1 -> 0, 1 -> 1
             # Convert the binary challenge to bytes
             challenge_bytes = np.packbits(challenge_binary.astype(np.uint8)).tobytes()
-            # Encrypt using TinyJAMBU
-            encrypted_output = self.tinyjambu_cipher.encrypt(challenge_bytes)
+            
+            # Check if `crypto` is a directory and use the mapped function
+            if os.path.isdir(crypto_path):
+                encrypted_output = crypto_functions[self.crypto](self.tinyjambu_cipher, challenge_bytes)
+            else:
+                raise ValueError("Only supporting tinyjambu in the specified directory for now.")
+
             # Convert the encrypted output to binary array (128-bit response)
             encrypted_response = np.unpackbits(np.frombuffer(encrypted_output, dtype=np.uint8))
             # Extract the 65th bit (index 64) from the encrypted response
@@ -43,16 +56,5 @@ class CryptoPUF_TinyJAMBU(Simulation):
             response = -1 if bit_65 == 0 else 1
             # Append the response
             responses.append(response)
+            
         return np.array(responses)
-
-    def r_eval(self, r: int, challenges: np.ndarray) -> np.ndarray:
-        """
-        Evaluates the CryptoPUF `r` times on the list of challenges and returns an array
-        of shape (r, N, 1) of all responses.
-        """
-        N = challenges.shape[0]
-        responses = np.empty(shape=(N, self.response_length, r))
-        # Evaluate the PUF r times
-        for i in range(r):
-            responses[:, :, i] = self.eval(challenges).reshape(N, self.response_length)
-        return responses
