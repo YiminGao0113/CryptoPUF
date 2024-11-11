@@ -21,8 +21,13 @@ CryptoPUF is a lightweight, machine-learning-resilient Physically Unclonable Fun
    git clone https://github.com/yourusername/CryptoPUF_repo.git
    cd CryptoPUF_repo
 2. **Run the example Jupyter notebooks**
+
    Explore the included notebooks to see how to model a CryptoPUF and evaluate its resilience to various ML attacks.
-3. **Extensible Cryptographic Core**
-   The CryptoPUF implementation is designed to allow easy integration of different cryptographic cores. The crypto_functions dictionary maps each crypto core name to its corresponding encryption function, enabling you to add and configure new cryptographic algorithms simply by updating this dictionary. By default, it supports TinyJAMBU, but other cryptographic functions can be added as needed.
-4. **Paper Results**
+   
+4. **Extensible Cryptographic Core**
+
+The CryptoPUF implementation is designed to allow easy integration of different cryptographic cores. The [`crypto_functions` dictionary in `crypto/cryptopuf.py`](https://github.com/yourusername/CryptoPUF_repo/blob/main/crypto/cryptopuf.py) maps each crypto core name to its corresponding encryption function, enabling you to add and configure new cryptographic algorithms simply by updating this dictionary. By default, it supports TinyJAMBU, but other cryptographic functions can be added as needed.
+
+
+5. **Paper Results**
     The full results for the CryptoPUF paper are available at [CryptoPUF Results Repository](https://github.com/YiminGao0113/CryptoPUF_results).
