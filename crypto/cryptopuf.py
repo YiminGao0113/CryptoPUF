@@ -9,7 +9,7 @@ crypto_functions = {
     # Add other crypto mappings here as needed, e.g., "another_crypto": another_crypto_encrypt_function
 }
 
-class CryptoPUF_TinyJAMBU(Simulation):
+class CryptoPUF(Simulation):
     def __init__(self, challenge_length: int, key: str, nonce: str, crypto: str = 'tinyjambu', seed: int = None):
         print(f"Initializing CryptoPUF based on {crypto} crypto core...")
         self._challenge_length = challenge_length

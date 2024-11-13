@@ -1,1 +1,1 @@
-from .cryptopuf import CryptoPUF_TinyJAMBU
+from .cryptopuf import CryptoPUF
