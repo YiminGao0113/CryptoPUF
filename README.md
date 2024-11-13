@@ -18,8 +18,8 @@ CryptoPUF is a lightweight, machine-learning-resilient Physically Unclonable Fun
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/CryptoPUF_repo.git
-   cd CryptoPUF_repo
+   git clone https://github.com/yourusername/CryptoPUF.git
+   cd CryptoPUF
 2. **Run the example Jupyter notebooks**
 
    Explore the included notebooks to see how to model a CryptoPUF and evaluate its resilience to various ML attacks.
