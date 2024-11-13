@@ -3,10 +3,10 @@
 CryptoPUF is a lightweight, machine-learning-resilient Physically Unclonable Function (PUF) implementation designed for secure, efficient authentication/encryption. By combining a weak PUF (DD-PUF) with a cryptographic encryption core (TinyJAMBU), CryptoPUF provides improved resistance against machine learning attacks and is optimized for low-power IoT and edge devices.
 
 ## Features
+- **Lightweight Design**: Combines a weak PUF (e.g. DD-PUF) with a crypto core (e.g. TinyJAMBU) to offer security in hardware-constrained environments.
 - **Machine Learning Resilience**: Integrates a cryptographic core to reduce vulnerability to ML-based attacks.
-- **Lightweight Design**: Combines a weak PUF with TinyJAMBU encryption to offer security in hardware-constrained environments.
 - **Configurable Challenge-Response Pairs (CRPs)**: Supports customizable CRP generation and testing.
-- **Ease of Integration**: Modular design for use in various secure hardware applications.
+- **Extensibility**: Allows users to support new cryptographic algorithms by adding a subfolder under  [crypto](https://github.com/YiminGao0113/CryptoPUF/blob/main/crypto) with the defined encryption function. (TinyJAMBU can be used as a template example).
 
 ## Installation
 
